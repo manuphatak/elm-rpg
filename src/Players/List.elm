@@ -37,14 +37,16 @@ list players =
             ]
         ]
 
+
 playerRows : Player -> Html Msg
 playerRows player =
     tr []
-        [ td [] [ text (toString player.id)]
+        [ td [] [ text (toString player.id) ]
         , td [] [ text player.name ]
-        , td [] [ text (toString player.level)]
+        , td [] [ text (toString player.level) ]
         , td [] [ editBtn player ]
         ]
+
 
 editBtn : Player -> Html Msg
 editBtn player =

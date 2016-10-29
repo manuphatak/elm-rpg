@@ -6,6 +6,7 @@ import Html.Events exposing (onClick)
 import Players.Models exposing (..)
 import Players.Messages exposing (..)
 
+
 view : Player -> Html Msg
 view model =
     div []
@@ -13,10 +14,12 @@ view model =
         , form model
         ]
 
+
 nav : Player -> Html Msg
 nav model =
     div [ class "clearfix mb2 white bg-black p1" ]
         [ listBtn ]
+
 
 form : Player -> Html Msg
 form player =
@@ -24,6 +27,7 @@ form player =
         [ h1 [] [ text player.name ]
         , formLevel player
         ]
+
 
 formLevel : Player -> Html Msg
 formLevel player =
@@ -37,17 +41,24 @@ formLevel player =
             ]
         ]
 
+
 btnLevelDecrease : Player -> Html Msg
 btnLevelDecrease player =
     a
-        [ class "btn ml1 h1" ]
-        [ i [ class "fa fa-minus-circle"] [] ]
+        [ class "btn ml1 h1"
+        , onClick (ChangeLevel player.id -1)
+        ]
+        [ i [ class "fa fa-minus-circle" ] [] ]
+
 
 btnLevelIncrease : Player -> Html Msg
 btnLevelIncrease player =
     a
-        [ class "btn ml1 h1" ]
-        [ i [ class "fa fa-plus-circle"] [] ]
+        [ class "btn ml1 h1"
+        , onClick (ChangeLevel player.id 1)
+        ]
+        [ i [ class "fa fa-plus-circle" ] [] ]
+
 
 listBtn : Html Msg
 listBtn =
