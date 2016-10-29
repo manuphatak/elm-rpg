@@ -1,4 +1,5 @@
 const path = require('path');
+const WebpackDashboard = require('webpack-dashboard/plugin')
 
 module.exports = {
   entry: {
@@ -20,6 +21,10 @@ module.exports = {
     ],
     noParse: /.elm$/,
   },
+
+  plugins: [
+    new WebpackDashboard(),
+  ],
 
   devServer: {
     inline: true,

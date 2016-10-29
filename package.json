@@ -16,12 +16,14 @@
     "webpack-dev-middleware": "1.8.4",
     "webpack-dev-server": "1.16.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "webpack-dashboard": "0.2.0"
+  },
   "scripts": {
     "api": "node api.js",
     "build": "webpack",
     "watch": "webpack --watch",
-    "dev": "webpack-dev-server --port 3000",
+    "dev": "webpack-dashboard -- webpack-dev-server --port 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Manu Phatak <bionikspoon@gmail.com>",
