@@ -1,15 +1,21 @@
-var path = require('path');
-var webpack = require('webpack');
-var merge = require('webpack-merge');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var autoprefixer = require('autoprefixer');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const errorOverlayMiddleware = require('react-error-overlay/middleware')
+const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware')
+
+
+
+const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin')
+const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin')
 
 var entryPath = path.join(__dirname, 'src/index.js');
 var outputPath = path.join(__dirname, 'dist');
 
-console.log('WEBPACK GO!');
 
 // determine build env
 var TARGET_ENV = process.env.npm_lifecycle_event === 'build' ? 'production' : 'development';
@@ -61,7 +67,7 @@ var commonConfig = {
     noParse: /\.elm$/,
   },
 
-  plugins: [],
+  plugins: [ ],
 
 }
 
@@ -70,20 +76,28 @@ if (TARGET_ENV === 'development') {
   console.log('Serving locally...');
 
   module.exports = merge(commonConfig, {
+    devtool: 'eval',
 
     entry:{
       app:  [
-        'webpack-dev-server/client?http://localhost:8080',
-        entryPath
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      require.resolve('webpack/hot/dev-server'),
+      entryPath
       ]
     },
 
     devServer: {
-      // serve index.html in place of 404 responses
       historyApiFallback: true,
       contentBase: './src',
       inline: true,
       stats: { colors: true },
+      hot: true,
+      overlay: false,
+      quiet: true,
+      setup(app) {
+        app.use(errorOverlayMiddleware())
+        app.use(noopServiceWorkerMiddleware())
+      }
     },
 
     module: {
@@ -92,7 +106,14 @@ if (TARGET_ENV === 'development') {
         exclude: [/elm-stuff/, /node_modules/],
         loader: 'elm-hot-loader!elm-webpack-loader?verbose=true&warn=true&debug=true'
       }]
-    }
+    },
+    plugins: [
+
+
+        new HotModuleReplacementPlugin(),
+
+        new NamedModulesPlugin(),
+    ]
 
   });
 }
@@ -114,14 +135,6 @@ if (TARGET_ENV === 'production') {
     },
 
     plugins: [
-      // new CopyWebpackPlugin([{
-      //     from: 'src/public/img/',
-      //     to: 'public/img/'
-      //   },
-      //   {
-      //     from: 'src/favicon.ico'
-      //   },
-      // ]),
 
       new webpack.optimize.OccurenceOrderPlugin(),
 
