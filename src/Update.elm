@@ -1,7 +1,7 @@
 module Update exposing (..)
 
 import Commands exposing (savePlayerCmd)
-import Models exposing (Model, Player)
+import Models exposing (Model, Notification(..), Player)
 import Msgs exposing (Msg(..))
 import RemoteData
 import Routing exposing (parseLocation)
@@ -18,7 +18,7 @@ update msg model =
                 newRoute =
                     parseLocation location
             in
-                ( { model | route = newRoute }, Cmd.none )
+                ( { model | route = newRoute, notification = NotifyEmpty }, Cmd.none )
 
         Msgs.ChangeLevel player delta ->
             let
@@ -31,7 +31,11 @@ update msg model =
             ( updatePlayer model player, Cmd.none )
 
         Msgs.OnPlayerSave (Err error) ->
-            ( model, Cmd.none )
+            let
+                notification =
+                    NotifyError "Something went wrong, please try again."
+            in
+                ( { model | notification = notification }, Cmd.none )
 
 
 updatePlayer : Model -> Player -> Model
@@ -49,4 +53,4 @@ updatePlayer model updatedPlayer =
         updatedPlayers =
             RemoteData.map updatePlayerList model.players
     in
-        { model | players = updatedPlayers }
+        { model | players = updatedPlayers, notification = NotifyEmpty }

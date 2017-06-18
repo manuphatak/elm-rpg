@@ -9,9 +9,15 @@ type Route
     | NotFoundRoute
 
 
+type Notification
+    = NotifyEmpty
+    | NotifyError String
+
+
 type alias Model =
     { players : WebData (List Player)
     , route : Route
+    , notification : Notification
     }
 
 
@@ -19,6 +25,7 @@ initialModel : Route -> Model
 initialModel route =
     { players = RemoteData.Loading
     , route = route
+    , notification = NotifyEmpty
     }
 
 

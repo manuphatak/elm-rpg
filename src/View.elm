@@ -1,7 +1,8 @@
 module View exposing (..)
 
 import Html exposing (Html, div, text)
-import Models exposing (Model, PlayerId)
+import Html.Attributes exposing (class)
+import Models exposing (Model, Notification(..), PlayerId)
 import Msgs exposing (Msg)
 import Players.Edit
 import Players.List
@@ -11,7 +12,17 @@ import RemoteData
 view : Model -> Html Msg
 view model =
     div []
-        [ page model ]
+        [ notify model, page model ]
+
+
+notify : Model -> Html Msg
+notify model =
+    case model.notification of
+        NotifyError message ->
+            div [ class "h5 px2 white bg-red" ] [ text message ]
+
+        NotifyEmpty ->
+            text ""
 
 
 page : Model -> Html Msg
