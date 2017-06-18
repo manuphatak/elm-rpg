@@ -3,8 +3,8 @@ module Commands exposing (..)
 import Http
 import Json.Decode
 import Json.Decode.Pipeline exposing (decode, required)
-import Msgs exposing (Msg)
 import Models exposing (PlayerId, Player)
+import Msgs exposing (Msg)
 import RemoteData
 
 
