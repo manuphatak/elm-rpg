@@ -1,33 +1,38 @@
 {
-  "name": "elm-rpg",
+  "name": "Best-RPG",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline",
-    "build": "rimraf dist && webpack && mv dist/*.eot dist/static/css/ && mv dist/*.woff* dist/static/css/ && mv dist/*.svg dist/static/css/ && mv dist/*.ttf dist/static/css/"
+    "api": "json-server --watch db.json",
+    "build": "rimraf dist && webpack && mv dist/*.eot dist/static/css/ && mv dist/*.woff* dist/static/css/ && mv dist/*.svg dist/static/css/ && mv dist/*.ttf dist/static/css/",
+    "client": "webpack-dev-server",
+    "start": "nf start"
   },
   "devDependencies": {
+    "ace-css": "1.1.x",
     "autoprefixer": "7.1.x",
     "copy-webpack-plugin": "4.0.x",
-    "css-loader": "0.28.x",
+    "css-loader": "0.28.4",
     "elm": "0.18.x",
     "elm-hot-loader": "0.5.x",
-    "elm-webpack-loader": "4.1.x",
+    "elm-webpack-loader": "4.1.1",
     "extract-text-webpack-plugin": "2.1.x",
-    "file-loader": "0.11.x",
+    "file-loader": "0.11.2",
+    "font-awesome": "4.7.x",
+    "foreman": "2.0.x",
     "html-webpack-plugin": "2.17.x",
+    "json-server": "0.10.x",
     "node-sass": "4.2.x",
     "postcss-loader": "2.0.x",
     "rimraf": "2.5.x",
     "sass-loader": "6.0.x",
-    "style-loader": "0.18.x",
-    "url-loader": "0.5.x",
-    "webpack": "2.6.x",
-    "webpack-dev-server": "2.4.x",
-    "webpack-merge": "4.1.x"
+    "style-loader": "0.18.2",
+    "url-loader": "0.5.9",
+    "webpack-dev-server": "2.4.5",
+    "webpack-merge": "4.1.x",
+    "webpack": "2.6.1"
   },
   "description": "Elm RPG",
-  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/bionikspoon/elm-rpg.git"
@@ -36,8 +41,5 @@
   "bugs": {
     "url": "https://github.com/bionikspoon/elm-rpg/issues"
   },
-  "homepage": "https://github.com/bionikspoon/elm-rpg#readme",
-  "dependencies": {
-    "json-server": "0.10.1"
-  }
+  "homepage": "https://github.com/bionikspoon/elm-rpg#readme"
 }
