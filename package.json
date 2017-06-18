@@ -37,5 +37,7 @@
     "url": "https://github.com/bionikspoon/elm-rpg/issues"
   },
   "homepage": "https://github.com/bionikspoon/elm-rpg#readme",
-  "dependencies": {}
+  "dependencies": {
+    "json-server": "0.10.1"
+  }
 }
