@@ -6,6 +6,7 @@ import Models exposing (Model, Notification(..), PlayerId)
 import Msgs exposing (Msg)
 import Players.Edit
 import Players.List
+import Players.New
 import RemoteData
 
 
@@ -33,6 +34,9 @@ page model =
 
         Models.PlayerRoute id ->
             playerEditPage model id
+
+        Models.NewPlayerRoute ->
+            Players.New.view model.newPlayerForm
 
         Models.NotFoundRoute ->
             notFoundView

@@ -1,25 +1,19 @@
 module Players.Edit exposing (..)
 
+import Components.Nav
 import Html exposing (..)
 import Html.Attributes exposing (class, value, href)
 import Html.Events exposing (onClick)
 import Models exposing (Player)
 import Msgs exposing (Msg)
-import Routing exposing (playersPath)
 
 
 view : Player -> Html Msg
 view model =
     div []
-        [ nav model
+        [ Components.Nav.view
         , form model
         ]
-
-
-nav : Player -> Html Msg
-nav model =
-    div [ class "clearfix mb2 white bg-black p1" ]
-        [ listBtn ]
 
 
 form : Player -> Html Msg
@@ -60,9 +54,3 @@ btnLevelIncrease player =
     in
         a [ class "btn ml1 h1", onClick message ]
             [ i [ class "fa fa-plus-circle" ] [] ]
-
-
-listBtn : Html Msg
-listBtn =
-    a [ class "btn regular", href playersPath ]
-        [ i [ class " fa fa-chevron-left mr1" ] [], text "Players" ]

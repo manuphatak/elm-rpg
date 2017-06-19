@@ -1,10 +1,11 @@
 module Update exposing (..)
 
-import Commands exposing (savePlayerCmd, deletePlayerCmd)
-import Models exposing (Model, Notification(..), Player, PlayerId)
+import Commands exposing (createPlayerCmd, deletePlayerCmd, savePlayerCmd)
+import Models exposing (Model, NewPlayerForm, Notification(..), Player, PlayerId)
 import Msgs exposing (Msg(..))
+import Navigation exposing (newUrl)
 import RemoteData
-import Routing exposing (parseLocation)
+import Routing exposing (parseLocation, playersPath)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -42,6 +43,18 @@ update msg model =
         Msgs.OnPlayerDelete (Err _) ->
             ( { model | notification = defaultError }, Cmd.none )
 
+        Msgs.UpdateNewPlayerForm newPlayerForm ->
+            ( { model | newPlayerForm = newPlayerForm }, Cmd.none )
+
+        Msgs.CreatePlayer newPlayerForm ->
+            ( model, createPlayerCmd newPlayerForm )
+
+        Msgs.OnPlayerCreate (Ok player) ->
+            ( createPlayer model player, newUrl playersPath )
+
+        Msgs.OnPlayerCreate (Err _) ->
+            ( { model | notification = defaultError }, Cmd.none )
+
 
 updatePlayer : Model -> Player -> Model
 updatePlayer model updatedPlayer =
@@ -75,6 +88,23 @@ deletePlayer model playerId =
                     model.players
     in
         { model | players = players }
+
+
+createPlayer : Model -> Player -> Model
+createPlayer model player =
+    let
+        players =
+            case model.players of
+                RemoteData.Success players ->
+                    RemoteData.succeed <| player :: players
+
+                _ ->
+                    model.players
+
+        newPlayerForm =
+            NewPlayerForm "" ""
+    in
+        { model | players = players, newPlayerForm = newPlayerForm }
 
 
 defaultError : Notification

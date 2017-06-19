@@ -6,7 +6,7 @@ import Html.Events exposing (onClick)
 import Models exposing (Player)
 import Msgs exposing (Msg)
 import RemoteData exposing (WebData)
-import Routing exposing (playerPath)
+import Routing exposing (newPlayerPath, playerPath)
 
 
 view : WebData (List Player) -> Html Msg
@@ -45,22 +45,27 @@ list players =
         [ table []
             [ thead []
                 [ tr []
-                    [ th [] [ text "Id" ]
-                    , th [] [ text "Name" ]
+                    [ th [] [ text "Name" ]
                     , th [] [ text "Level" ]
                     , th [] [ text "Actions" ]
                     ]
                 ]
             , tbody [] (List.map playerRow players)
             ]
+        , div [] [ newBtn ]
         ]
+
+
+newBtn : Html Msg
+newBtn =
+    a [ class "btn regular", href newPlayerPath ]
+        [ i [ class "fa fa-plus mr1" ] [], text "Create Player" ]
 
 
 playerRow : Player -> Html Msg
 playerRow player =
     tr []
-        [ td [] [ text player.id ]
-        , td [] [ text player.name ]
+        [ td [] [ text player.name ]
         , td [] [ text (toString player.level) ]
         , td [] [ editBtn player, deleteBtn player ]
         ]

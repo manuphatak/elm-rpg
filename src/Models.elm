@@ -6,6 +6,7 @@ import RemoteData exposing (WebData)
 type Route
     = PlayersRoute
     | PlayerRoute PlayerId
+    | NewPlayerRoute
     | NotFoundRoute
 
 
@@ -18,6 +19,7 @@ type alias Model =
     { players : WebData (List Player)
     , route : Route
     , notification : Notification
+    , newPlayerForm : NewPlayerForm
     }
 
 
@@ -26,6 +28,7 @@ initialModel route =
     { players = RemoteData.Loading
     , route = route
     , notification = NotifyEmpty
+    , newPlayerForm = NewPlayerForm "" ""
     }
 
 
@@ -33,8 +36,18 @@ type alias PlayerId =
     String
 
 
+type alias PlayerName =
+    String
+
+
 type alias Player =
     { id : PlayerId
-    , name : String
+    , name : PlayerName
     , level : Int
+    }
+
+
+type alias NewPlayerForm =
+    { name : PlayerName
+    , level : String
     }
