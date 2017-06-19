@@ -1,7 +1,7 @@
 module Update exposing (..)
 
-import Commands exposing (savePlayerCmd)
-import Models exposing (Model, Notification(..), Player)
+import Commands exposing (savePlayerCmd, deletePlayerCmd)
+import Models exposing (Model, Notification(..), Player, PlayerId)
 import Msgs exposing (Msg(..))
 import RemoteData
 import Routing exposing (parseLocation)
@@ -30,12 +30,17 @@ update msg model =
         Msgs.OnPlayerSave (Ok player) ->
             ( updatePlayer model player, Cmd.none )
 
-        Msgs.OnPlayerSave (Err error) ->
-            let
-                notification =
-                    NotifyError "Something went wrong, please try again."
-            in
-                ( { model | notification = notification }, Cmd.none )
+        Msgs.OnPlayerSave (Err _) ->
+            ( { model | notification = defaultError }, Cmd.none )
+
+        Msgs.DeletePlayer player ->
+            ( model, deletePlayerCmd player )
+
+        Msgs.OnPlayerDelete (Ok playerId) ->
+            ( deletePlayer model playerId, Cmd.none )
+
+        Msgs.OnPlayerDelete (Err _) ->
+            ( { model | notification = defaultError }, Cmd.none )
 
 
 updatePlayer : Model -> Player -> Model
@@ -54,3 +59,24 @@ updatePlayer model updatedPlayer =
             RemoteData.map updatePlayerList model.players
     in
         { model | players = updatedPlayers, notification = NotifyEmpty }
+
+
+deletePlayer : Model -> PlayerId -> Model
+deletePlayer model playerId =
+    let
+        players =
+            case model.players of
+                RemoteData.Success players ->
+                    players
+                        |> List.filter (.id >> (/=) playerId)
+                        |> RemoteData.succeed
+
+                _ ->
+                    model.players
+    in
+        { model | players = players }
+
+
+defaultError : Notification
+defaultError =
+    NotifyError "Something went wrong, please try again."

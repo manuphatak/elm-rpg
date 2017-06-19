@@ -34,8 +34,8 @@ playerDecoder =
         |> required "level" Json.Decode.int
 
 
-savePlayerUrl : PlayerId -> String
-savePlayerUrl playerId =
+playerDetailsUrl : PlayerId -> String
+playerDetailsUrl playerId =
     "http://localhost:3000/players/" ++ playerId
 
 
@@ -47,7 +47,7 @@ savePlayerRequest player =
         , headers = []
         , method = "PATCH"
         , timeout = Nothing
-        , url = savePlayerUrl player.id
+        , url = playerDetailsUrl player.id
         , withCredentials = False
         }
 
@@ -56,6 +56,25 @@ savePlayerCmd : Player -> Cmd Msg
 savePlayerCmd player =
     savePlayerRequest player
         |> Http.send Msgs.OnPlayerSave
+
+
+deletePlayerRequest : Player -> Http.Request PlayerId
+deletePlayerRequest player =
+    Http.request
+        { body = Http.emptyBody
+        , expect = Http.expectStringResponse << always <| Ok player.id
+        , headers = []
+        , method = "DELETE"
+        , timeout = Nothing
+        , url = playerDetailsUrl player.id
+        , withCredentials = False
+        }
+
+
+deletePlayerCmd : Player -> Cmd Msg
+deletePlayerCmd player =
+    deletePlayerRequest player
+        |> Http.send Msgs.OnPlayerDelete
 
 
 playerEncoder : Player -> Json.Encode.Value
