@@ -13,6 +13,7 @@ type Route
 type Notification
     = NotifyEmpty
     | NotifyError String
+    | NotifyInfo String
 
 
 type alias Model =

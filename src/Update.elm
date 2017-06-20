@@ -71,7 +71,7 @@ updatePlayer model updatedPlayer =
         updatedPlayers =
             RemoteData.map updatePlayerList model.players
     in
-        { model | players = updatedPlayers, notification = NotifyEmpty }
+        { model | players = updatedPlayers, notification = NotifyEmpty, notification = defaultSuccess }
 
 
 deletePlayer : Model -> PlayerId -> Model
@@ -87,7 +87,7 @@ deletePlayer model playerId =
                 _ ->
                     model.players
     in
-        { model | players = players }
+        { model | players = players, notification = defaultSuccess }
 
 
 createPlayer : Model -> Player -> Model
@@ -110,3 +110,8 @@ createPlayer model player =
 defaultError : Notification
 defaultError =
     NotifyError "Something went wrong, please try again."
+
+
+defaultSuccess : Notification
+defaultSuccess =
+    NotifyInfo "Something went right!"

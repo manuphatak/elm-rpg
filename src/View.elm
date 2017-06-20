@@ -22,6 +22,9 @@ notify model =
         NotifyError message ->
             div [ class "h5 px2 white bg-red" ] [ text message ]
 
+        NotifyInfo message ->
+            div [ class "h5 px2 white bg-blue" ] [ text message ]
+
         NotifyEmpty ->
             text ""
 
