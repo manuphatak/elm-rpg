@@ -19,7 +19,7 @@
     "extract-text-webpack-plugin": "2.1.x",
     "file-loader": "0.11.2",
     "font-awesome": "4.7.x",
-    "foreman": "2.0.x",
+    "foreman": "3.0.x",
     "html-webpack-plugin": "2.17.x",
     "json-server": "0.10.x",
     "node-sass": "4.2.x",
