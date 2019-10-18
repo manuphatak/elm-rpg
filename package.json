@@ -24,7 +24,7 @@
     "json-server": "0.10.x",
     "node-sass": "4.2.x",
     "postcss-loader": "2.0.x",
-    "react-dev-utils": "3.0.0",
+    "react-dev-utils": "3.1.2",
     "react-error-overlay": "1.0.7",
     "rimraf": "2.5.x",
     "sass-loader": "6.0.x",
